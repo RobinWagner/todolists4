@@ -1,12 +1,6 @@
 class TodoItemsController < ApplicationController
   before_action :set_todo_item, only: [:show, :edit, :update, :destroy]
 
-  # GET /todo_items
-  # GET /todo_items.json
-  def index
-    @todo_items = TodoItem.all
-  end
-
   # GET /todo_items/1
   # GET /todo_items/1.json
   def show
