@@ -8,7 +8,7 @@ class TodoItemsController < ApplicationController
 
   # GET /todo_items/new
   def new
-    @todo_item = TodoItem.new
+    @todo_item = @todo_list.todo_items.new
   end
 
   # GET /todo_items/1/edit
