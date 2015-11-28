@@ -1,4 +1,5 @@
 class TodoItemsController < ApplicationController
+  before_action :set_todo_list
   before_action :set_todo_item, only: [:show, :edit, :update, :destroy]
 
   # GET /todo_items/1
@@ -23,7 +24,7 @@ class TodoItemsController < ApplicationController
     respond_to do |format|
       if @todo_item.save
         format.html { redirect_to @todo_list, notice: 'Todo item was successfully created.' }
-        format.json { render :show, status: :created, location: @todo_item }
+        format.json { render :show, status: :created, location: @todo_list }
       else
         format.html { render :new }
         format.json { render json: @todo_list.errors, status: :unprocessable_entity }
@@ -37,7 +38,7 @@ class TodoItemsController < ApplicationController
     respond_to do |format|
       if @todo_item.update(todo_item_params)
         format.html { redirect_to @todo_list, notice: 'Todo item was successfully updated.' }
-        format.json { render :show, status: :ok, location: @todo_item }
+        format.json { render :show, status: :ok, location: @todo_list }
       else
         format.html { render :edit }
         format.json { render json: @todo_list.errors, status: :unprocessable_entity }
@@ -50,7 +51,7 @@ class TodoItemsController < ApplicationController
   def destroy
     @todo_item.destroy
     respond_to do |format|
-      format.html { redirect_to @todo_list, notice: 'Todo item was successfully destroyed.' }
+      format.html { redirect_to @todo_list_todo_items_url, notice: 'Todo item was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -58,7 +59,11 @@ class TodoItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_todo_item
-      @todo_item = TodoItem.find(params[:id])
+      @todo_item = @todo_list.todo_items.find(params[:id])
+    end
+
+    def set_todo_list
+      @todo_list = TodoList.find(params[:todo_list_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
